@@ -1,5 +1,8 @@
 # Changelog
 
+## [v1.2.4](https://github.com/kyo-ago/tagpr/compare/v1.2.3...v1.2.4) - 2023-09-02
+- fix: config.go by @kyo-ago in https://github.com/kyo-ago/tagpr/pull/11
+
 ## [v1.2.3](https://github.com/kyo-ago/tagpr/compare/v1.2.2...v1.2.3) - 2023-09-02
 - fix: defaultVariable in semver.go by @kyo-ago in https://github.com/kyo-ago/tagpr/pull/9
 
