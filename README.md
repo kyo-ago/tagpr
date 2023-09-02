@@ -26,6 +26,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: read
 
 jobs:
   tagpr:
@@ -54,6 +55,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: read
 
 jobs:
   tagpr:
