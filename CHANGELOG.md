@@ -1,5 +1,8 @@
 # Changelog
 
+## [v1.2.6](https://github.com/kyo-ago/tagpr/compare/v1.2.5...v1.2.6) (2023-09-02)
+
+
 ## [v1.2.5](https://github.com/kyo-ago/tagpr/compare/v1.2.4...v1.2.5) - 2023-09-02
 - bug fix by @kyo-ago in https://github.com/kyo-ago/tagpr/pull/13
 
