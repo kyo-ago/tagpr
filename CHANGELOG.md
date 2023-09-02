@@ -1,5 +1,7 @@
 # Changelog
 
+## [v1.2.7](https://github.com/kyo-ago/tagpr/compare/v1.2.6...v1.2.7) - 2023-09-02
+
 ## [v1.2.6](https://github.com/kyo-ago/tagpr/compare/v1.2.5...v1.2.6) (2023-09-02)
 
 
