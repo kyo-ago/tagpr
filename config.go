@@ -2,6 +2,7 @@ package tagpr
 
 import (
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -19,7 +20,7 @@ const (
 #       creates or updates a pull request as a release candidate, or tags when they are merged.
 #
 #   tagpr.versionRegexp
-#       RegExp ex.^v\w+-web$
+#       RegExp ex.^v\\w+$
 #
 #   tagpr.versionFormat
 #       Go time format ex.20060102${variable}
@@ -302,6 +303,18 @@ func stringify(pstr *string) string {
 
 func (cfg *config) ReleaseBranch() string {
 	return stringify(cfg.releaseBranch)
+}
+
+func (cfg *config) VersionRegexp() *regexp.Regexp {
+	return regexp.MustCompile(stringify(cfg.versionRegexp))
+}
+
+func (cfg *config) VersionFormat() string {
+	return stringify(cfg.versionFormat)
+}
+
+func (cfg *config) DefaultVariable() string {
+	return stringify(cfg.defaultVariable)
 }
 
 func (cfg *config) VersionFile() string {

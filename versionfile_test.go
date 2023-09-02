@@ -28,7 +28,7 @@ func TestFileOrder(t *testing.T) {
 	}
 }
 func TestRetrieveVersionFile(t *testing.T) {
-	ver, err := retrieveVersionFromFile("version.go", false, nil)
+	ver, err := retrieveVersionFromFile("version.go", false, "")
 	if err != nil {
 		t.Error(err)
 	}
@@ -36,24 +36,24 @@ func TestRetrieveVersionFile(t *testing.T) {
 		t.Errorf("detected: %s, expected: %s", ver.Naked(), version)
 	}
 
-	ver, _ = retrieveVersionFromFile("testdata/vfile1", true, nil)
+	ver, _ = retrieveVersionFromFile("testdata/vfile1", true, "")
 	if e, g := "v1.2.3", ver.Tag(); e != g {
 		t.Errorf("got: %s, expected: %s", g, e)
 	}
 
-	ver, _ = retrieveVersionFromFile("testdata/vfile2", false, nil)
+	ver, _ = retrieveVersionFromFile("testdata/vfile2", false, "")
 	if e, g := "1.3.5", ver.Tag(); e != g {
 		t.Errorf("got: %s, expected: %s", g, e)
 	}
 
-	ver, _ = retrieveVersionFromFile("testdata/vfile3", false, nil)
+	ver, _ = retrieveVersionFromFile("testdata/vfile3", false, "")
 	if e, g := "12.3.4", ver.Tag(); e != g {
 		t.Errorf("got: %s, expected: %s", g, e)
 	}
 }
 
 func TestDetectVersionFile(t *testing.T) {
-	v, _ := newSemver(version, nil)
+	v, _ := newSemver(version, "")
 	f, err := detectVersionFile(".", v)
 	if err != nil {
 		t.Error(err)
@@ -64,7 +64,7 @@ func TestDetectVersionFile(t *testing.T) {
 }
 
 func TestDetectVersionFile_perl(t *testing.T) {
-	v, _ := newSemver("v1.0.0", nil)
+	v, _ := newSemver("v1.0.0", "")
 	f, err := detectVersionFile("testdata/perl", v)
 	if err != nil {
 		t.Errorf("error should be nil, but: %s", err)

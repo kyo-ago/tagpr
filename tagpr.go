@@ -41,13 +41,13 @@ type tagpr struct {
 }
 
 func (tp *tagpr) latestVerTag() string {
-	if tp.cfg.versionRegexp == nil {
+	versionRegexp := tp.cfg.VersionRegexp()
+	if versionRegexp == nil {
 		vers := (&gitsemvers.Semvers{GitPath: tp.gitPath}).VersionStrings()
 		if len(vers) > 0 {
 			return vers[0]
 		}
 	} else {
-		exp := regexp.MustCompile(*tp.cfg.versionRegexp)
 		tagStr, _, err := tp.c.Git("-C", ".", "tag")
 		if err != nil {
 			fmt.Println("git tag error:", err)
@@ -57,12 +57,15 @@ func (tp *tagpr) latestVerTag() string {
 		var vers []string
 		for _, tag := range rawTags {
 			tag = strings.TrimSpace(tag)
-			if exp.MatchString(tag) {
+			if versionRegexp.MatchString(tag) {
 				vers = append(vers, tag)
 			}
 		}
-		return vers[len(vers)-1]
+		if len(vers) > 0 {
+			return vers[len(vers)-1]
+		}
 	}
+	fmt.Println("missing match latest version tag")
 	return ""
 }
 
@@ -139,7 +142,7 @@ func (tp *tagpr) Run(ctx context.Context) error {
 		}
 		currVerStr = "v0.0.0"
 	}
-	currVer, err := newSemver(currVerStr, tp.cfg.versionFormat)
+	currVer, err := newSemver(currVerStr, tp.cfg.VersionFormat())
 	if err != nil {
 		return err
 	}
@@ -287,7 +290,7 @@ func (tp *tagpr) Run(ctx context.Context) error {
 			labels = append(labels, l.GetName())
 		}
 	}
-	nextVer := currVer.GuessNext(append(labels, nextLabels...), tp.cfg.defaultVariable)
+	nextVer := currVer.GuessNext(append(labels, nextLabels...), tp.cfg.DefaultVariable())
 	var addingLabels []string
 OUT:
 	for _, l := range nextLabels {
@@ -399,7 +402,7 @@ OUT:
 		}
 	}
 	if len(vfiles) > 0 && vfiles[0] != "" {
-		nVer, _ := retrieveVersionFromFile(vfiles[0], nextVer.vPrefix, tp.cfg.defaultVariable)
+		nVer, _ := retrieveVersionFromFile(vfiles[0], nextVer.vPrefix, tp.cfg.DefaultVariable())
 		if nVer != nil && nVer.Naked() != nextVer.Naked() {
 			nextVer = nVer
 		}
