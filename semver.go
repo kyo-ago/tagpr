@@ -14,12 +14,12 @@ type semv struct {
 	vPrefix bool
 }
 
-func newSemver(v string, versionFormat *string) (*semv, error) {
+func newSemver(v string, versionFormat string) (*semv, error) {
 	var err error
 	sv := &semv{}
-	if versionFormat != nil {
+	if versionFormat != "" {
 		currentTime := time.Now()
-		formattedVersion := currentTime.Format(*versionFormat)
+		formattedVersion := currentTime.Format(versionFormat)
 		sv.formattedVersion = &formattedVersion
 		sv.vPrefix = formattedVersion[0] == 'v'
 	} else {
@@ -46,7 +46,7 @@ func (sv *semv) Tag() string {
 	return sv.Naked()
 }
 
-func (sv *semv) GuessNext(labels []string, defaultVariable *string) *semv {
+func (sv *semv) GuessNext(labels []string, defaultVariable string) *semv {
 	if sv.formattedVersion != nil {
 		for _, label := range labels {
 			var separator = ""
@@ -66,8 +66,8 @@ func (sv *semv) GuessNext(labels []string, defaultVariable *string) *semv {
 				}
 			}
 		}
-		if (defaultVariable == nil) || (*defaultVariable == "") {
-			nextVersion := strings.ReplaceAll(*sv.formattedVersion, "${variable}", *defaultVariable)
+		if defaultVariable != "" {
+			nextVersion := strings.ReplaceAll(*sv.formattedVersion, "${variable}", defaultVariable)
 			return &semv{
 				v:                sv.v,
 				formattedVersion: &nextVersion,
